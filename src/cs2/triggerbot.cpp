@@ -7,12 +7,41 @@
 #include "mouse.hpp"
 
 std::optional<std::chrono::steady_clock::time_point> next_shot = std::nullopt;
+std::optional<std::chrono::steady_clock::time_point> mouse_left_down_time = std::nullopt;
 bool previous_key_state = false;
 bool toggled = false;
+bool mouse_left_down = false;
+
+i32 rng_delay(f32 min, f32 max)
+{
+    std::random_device dev;
+    std::mt19937 rng {dev()};
+    const f32 mean =
+        static_cast<f32>(min + max) / 2.0f;
+    std::normal_distribution normal {
+        mean, static_cast<f32>(max - min) / 2.0f};
+
+    return static_cast<i32>(normal(rng));
+}
 
 void Triggerbot() {
     if (!config.triggerbot.enabled) {
         return;
+    }
+
+    const auto now = std::chrono::steady_clock::now();
+    const auto mouse_left_release_delay = std::chrono::milliseconds(rng_delay(0, 50));
+
+    if (mouse_left_down && mouse_left_down_time)
+    {
+        auto mouse_left_release_time = *mouse_left_down_time + mouse_left_release_delay;
+
+        if (now > mouse_left_release_time)
+        {
+            MouseLeftRelease();
+            mouse_left_down = false;
+            mouse_left_down_time = std::nullopt;
+        }
     }
 
     const bool key_state = IsButtonPressed(config.triggerbot.hotkey);
@@ -34,10 +63,10 @@ void Triggerbot() {
 
     if (next_shot) {
         const auto time = *next_shot;
-        const auto now = std::chrono::steady_clock::now();
         if (now > time) {
             MouseLeftPress();
-            MouseLeftRelease();
+            mouse_left_down = true;
+            mouse_left_down_time = now;
             next_shot = std::nullopt;
         }
         return;
@@ -84,13 +113,6 @@ void Triggerbot() {
         return;
     }
 
-    std::random_device dev;
-    std::mt19937 rng {dev()};
-    const f32 mean =
-        static_cast<f32>(config.triggerbot.delay_min + config.triggerbot.delay_max) / 2.0f;
-    std::normal_distribution normal {
-        mean, static_cast<f32>(config.triggerbot.delay_max - config.triggerbot.delay_min) / 2.0f};
-
-    const i32 delay = static_cast<i32>(normal(rng));
-    next_shot = std::chrono::steady_clock::now() + std::chrono::milliseconds(delay);
+    next_shot = std::chrono::steady_clock::now() + std::chrono::milliseconds(rng_delay(config.triggerbot.delay_min, config.triggerbot.delay_max));
 }
+
