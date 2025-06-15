@@ -72,8 +72,8 @@ struct TriggerbotConfig {
     KeyCode hotkey = KeyCode::Mouse4;
     i32 delay_min = 100;
     i32 delay_max = 200;
-    i32 hold_min = 100;
-    i32 hold_max = 200;
+    i32 hold_min = 3;
+    i32 hold_max = 80;
 
     Position indicator_position = Position::BottomLeft;
     bool enabled = false;
