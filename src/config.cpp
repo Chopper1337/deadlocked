@@ -78,6 +78,8 @@ toml::table TriggerbotConfig::to_toml() const {
         {"hotkey", static_cast<int>(hotkey)},
         {"delay_min", delay_min},
         {"delay_max", delay_max},
+        {"hold_min", hold_min},
+        {"hold_max", hold_max},
         {"indicator_position", static_cast<int>(indicator_position)},
         {"enabled", enabled},
         {"visibility_check", visibility_check},
@@ -96,6 +98,8 @@ TriggerbotConfig TriggerbotConfig::from_toml(const toml::table &table) {
     cfg.hotkey = static_cast<KeyCode>(table["hotkey"].value_or(static_cast<int>(cfg.hotkey)));
     cfg.delay_min = table["delay_min"].value_or(cfg.delay_min);
     cfg.delay_max = table["delay_max"].value_or(cfg.delay_max);
+    cfg.hold_min = table["hold_min"].value_or(cfg.hold_min);
+    cfg.hold_max = table["hold_max"].value_or(cfg.hold_max);
     cfg.indicator_position = static_cast<Position>(
         table["indicator_position"].value_or(static_cast<int>(cfg.indicator_position)));
     cfg.enabled = table["enabled"].value_or(cfg.enabled);

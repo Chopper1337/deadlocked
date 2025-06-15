@@ -30,7 +30,7 @@ void Triggerbot() {
     }
 
     const auto now = std::chrono::steady_clock::now();
-    const auto mouse_left_release_delay = std::chrono::milliseconds(rng_delay(0, 50));
+    const auto mouse_left_release_delay = std::chrono::milliseconds(rng_delay(config.triggerbot.hold_min, config.triggerbot.hold_max));
 
     if (mouse_left_down && mouse_left_down_time)
     {

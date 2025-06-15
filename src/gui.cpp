@@ -471,6 +471,9 @@ void Gui() {
             ImGui::DragIntRange2(
                 "Delay", &config.triggerbot.delay_min, &config.triggerbot.delay_max, 0.5f, 0, 1000,
                 "%d ms", nullptr, ImGuiSliderFlags_AlwaysClamp);
+            ImGui::DragIntRange2(
+                "Click hold time", &config.triggerbot.hold_min, &config.triggerbot.hold_max, 0.5f, 0, 1000,
+                "%d ms", nullptr, ImGuiSliderFlags_AlwaysClamp);
 
             ImGui::Checkbox("Toggle Mode", &config.triggerbot.toggle_mode);
             if (ImGui::IsItemHovered()) {
