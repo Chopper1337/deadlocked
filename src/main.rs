@@ -48,6 +48,7 @@ fn main() {
         && username == "root"
     {
         log::error!("start without sudo, and add your user to the input group.");
+        #[cfg(not(feature = "allow-root"))]
         return;
     }
 

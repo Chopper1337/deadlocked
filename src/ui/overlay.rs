@@ -107,6 +107,10 @@ impl App {
         &self.config.aim.global.aimbot
     }
 
+    #[cfg(feature = "no-overlay")]
+    pub fn overlay(&mut self, ctx: &Context) {}
+
+    #[cfg(not(feature = "no-overlay"))]
     pub fn overlay(&mut self, ctx: &Context) {
         ctx.set_pixels_per_point(1.0);
         let painter = ctx.layer_painter(egui::LayerId::background());
