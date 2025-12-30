@@ -2,7 +2,7 @@
 
 simple cs2 aimbot and esp, for linux only.
 
-[![Open Source CS2 Hacking](https://badgen.net/discord/members/eXjG4Ar9Sx)](https://discord.gg/eXjG4Ar9Sx)
+**this fork was created for radar use only.**
 
 ## Setup
 
